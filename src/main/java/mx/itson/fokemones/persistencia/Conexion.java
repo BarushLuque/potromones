@@ -20,7 +20,7 @@ public class Conexion {
     public static Connection obtener(){
         Connection conexion = null;
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost/potromones?user=root&password=admin");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost/potromones?user=root&password=Moonpiece");
             System.out.println("conectada");
         } catch (Exception ex){
             System.err.println("Ocurrió un error: " + ex.getMessage());
