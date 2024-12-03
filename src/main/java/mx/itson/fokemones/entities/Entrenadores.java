@@ -6,8 +6,6 @@ package mx.itson.fokemones.entities;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import mx.itson.fokemones.persistencia.Conexion;
@@ -16,7 +14,7 @@ import mx.itson.fokemones.persistencia.Conexion;
  *
  * @author zBook
  */
-public class Entrenador {
+public class Entrenadores {
 
     /**
      * @return the id
@@ -62,29 +60,29 @@ public class Entrenador {
     private int id;
     private String nombre;
     private String apodo;
-
+}
 /**
      * Esta seccion de codigo se usa para poder seleccionar todo lo que este dentro de "Responsable"
      * En la base de datos
      * @return todos los datos seleccionados de la base de datos
      */   
-    public static List<Entrenador> getAll() {
-        List<Entrenador> entrenadores = new ArrayList<>();
+    public static List<Responsable> getAll() {
+        List<Responsable> responsables = new ArrayList<>();
         try {
             Connection conexion = Conexion.obtener();
             Statement statement = conexion.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT id, nombre, apodo FROM entrenadores");
+            ResultSet rs = statement.executeQuery("SELECT id, nombre, puesto FROM responsable");
             while(rs.next()) {
-                Entrenador e = new Entrenador();
-                e.setId(rs.getInt(1));
-                e.setNombre(rs.getString(2));
-                e.setApodo(rs.getString(3));
-                entrenadores.add(e);
+                Responsable r = new Responsable();
+                r.setId(rs.getInt(1));
+                r.setNombre(rs.getString(2));
+                r.setPuesto(rs.getString(3));
+                responsables.add(r);
             }
         } catch (Exception ex) {
             System.err.println("Ocurrió un error " + ex.getMessage());
         }
-        return entrenadores;
+        return responsables;
     }
     
     /**
@@ -96,27 +94,27 @@ public class Entrenador {
      * @return Un objeto de tipo Responsable que contiene los datos del registro correspondiente.
      * Si no se encuentra el registro, se devuelve un objeto vacío con valores predeterminados.
      */
-    public static Entrenador getById(int id){
-        Entrenador e = new Entrenador ();
+    public static Responsable getById(int id){
+        Responsable r = new Responsable ();
         try {
             Connection conexion = Conexion.obtener();
             
-            String query = "SELECT id, nombre, apodo FROM entrenadores WHERE id = ?";
+            String query = "SELECT id, nombre, puesto FROM responsable WHERE id = ?";
             PreparedStatement statement = conexion.prepareStatement(query);
             statement.setInt(1, id);
             
             ResultSet rs = rs = statement.executeQuery();
             while(rs.next()) {
  
-                e.setId(rs.getInt(1));
-                e.setNombre(rs.getString(2));
-                e.setApodo(rs.getString(3));
+                r.setId(rs.getInt(1));
+                r.setNombre(rs.getString(2));
+                r.setPuesto(rs.getString(3));
 
             }
         } catch (Exception ex) {
             System.err.println("Ocurrió un error " + ex.getMessage());
         }
-        return e;
+        return r;
     }
     
     
@@ -128,14 +126,14 @@ public class Entrenador {
      * @param puesto es un string el cual es el puesto del responsable especificado
      * @return la edicion de los elementos seleccionados del responsable especificado
      */
-    public static boolean edit(int id,String nombre, String apodo) {
+    public static boolean edit(int id,String nombre, String puesto) {
         boolean resultado = false;
         try{
                 Connection conexion = Conexion.obtener();
-                String consulta = "UPDATE entrenadores SET nombre = ?, apodo = ? WHERE id = ?";
+                String consulta = "UPDATE responsable SET nombre = ?, puesto = ? WHERE id = ?";
                 PreparedStatement statement = conexion.prepareStatement(consulta);
                 statement.setString(1, nombre);
-                statement.setString(2, apodo);
+                statement.setString(2, puesto);
                 statement.setInt(3, id);
                 
                 statement.execute();
@@ -155,7 +153,7 @@ public class Entrenador {
         boolean resultado = false;
         try{
                 Connection conexion = Conexion.obtener();
-                String consulta = "DELETE FROM entrenadores WHERE id = ?";
+                String consulta = "DELETE FROM responsable WHERE id = ?";
                 PreparedStatement statement = conexion.prepareStatement(consulta);
                 
                 statement.setInt(1, id);
@@ -173,14 +171,14 @@ public class Entrenador {
      * @param puesto Valor del puesto del responsable
      * @return true si se guardo exitosamente ; de lo contrario, false.
      */
-    public static boolean save(String nombre, String apodo) {
+    public static boolean save(String nombre, String puesto) {
         boolean resultado = false;
         try{
                 Connection conexion = Conexion.obtener();
-                String consulta = "INSERT INTO entrenadores (nombre, apodo) VALUES (?, ?)";
+                String consulta = "INSERT INTO responsable (nombre, puesto) VALUES (?, ?)";
                 PreparedStatement statement = conexion.prepareStatement(consulta);
                 statement.setString(1, nombre);
-                statement.setString(2, apodo);
+                statement.setString(2, puesto);
                 
                 statement.execute();
                 resultado = statement.getUpdateCount() == 1;
@@ -189,7 +187,7 @@ public class Entrenador {
             System.err.println("Ocurrió un error: " + ex.getMessage());
         }return resultado;
         
-}
+        
     } 
     
-
+}
